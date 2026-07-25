@@ -1,0 +1,1589 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poliția Legacy Of CLT</title>
+  <link rel="icon" href="PDCLT.png" type="image/png">
+  <style>
+    :root {
+      color-scheme: dark;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, rgba(56, 139, 253, 0.12), transparent 20%),
+        radial-gradient(circle at bottom, rgba(255, 95, 109, 0.08), transparent 22%),
+        linear-gradient(180deg, #0d1117 0%, #0d1117 100%);
+    }
+
+    header {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(13, 17, 23, 0.88);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0.75rem 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .search-container {
+      position: relative;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      width: min(100%, 520px);
+    }
+
+    .search-center {
+      width: min(100%, 420px);
+      max-width: 360px;
+    }
+
+    .brand-logo img {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(88, 166, 255, 0.2);
+    }
+
+    .brand-logo h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+      background: linear-gradient(90deg, #58a6ff, #ff5f6d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      white-space: nowrap;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 999px;
+      padding: 0.55rem 0.85rem;
+      min-width: 260px;
+      width: 100%;
+    }
+
+    .search-bar input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: #c9d1d9;
+      font-size: 0.95rem;
+      outline: none;
+      padding: 0 0.35rem;
+    }
+
+    .search-bar input::placeholder {
+      color: #8b949e;
+    }
+
+    .search-hint {
+      color: #8b949e;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      margin-left: 0.75rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .search-results-bar {
+      position: absolute;
+      top: calc(100% + 0.6rem);
+      left: 0;
+      right: 0;
+      background: rgba(2, 6, 13, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      z-index: 25;
+      overflow: hidden;
+      max-height: 260px;
+      width: 100%;
+      display: none;
+    }
+
+    .search-results-bar.active {
+      display: block;
+    }
+
+    .search-results-bar .result-item {
+      width: 100%;
+      text-align: left;
+      padding: 0.95rem 1.1rem;
+      border: none;
+      background: transparent;
+      color: #c9d1d9;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .search-results-bar .result-item:hover,
+    .search-results-bar .result-item:focus-visible {
+      background: rgba(88, 166, 255, 0.12);
+      color: #58a6ff;
+    }
+
+    .search-results-bar .result-item + .result-item {
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .search-results-bar .result-highlight {
+      color: #58a6ff;
+      font-weight: 700;
+    }
+
+    .search-results-bar .no-results {
+      padding: 1rem;
+      color: #8b949e;
+    }
+
+    .search-results button {
+      width: 100%;
+      text-align: left;
+      padding: 0.85rem 1rem;
+      border: none;
+      background: transparent;
+      color: #c9d1d9;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .search-results button:hover,
+    .search-results button:focus-visible {
+      background: rgba(88, 166, 255, 0.12);
+      color: #58a6ff;
+    }
+
+    .search-results button:not(:last-child) {
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .discord-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d1117;
+      border: 1px solid rgba(88, 166, 255, 0.18);
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: transform 0.15s ease, background 0.15s ease;
+      overflow: hidden;
+    }
+
+    .discord-link:hover {
+      transform: translateY(-1px);
+      background: rgba(88, 166, 255, 0.12);
+    }
+
+    .discord-link img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 2rem;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .section-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(240,246,252,0.04);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(1, 4, 9, 0.3);
+    }
+
+    .section-card h2,
+    .section-card h3 {
+      color: #58a6ff;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-card h2 {
+      font-size: 1.7rem;
+      border-bottom: 1px solid rgba(88, 166, 255, 0.3);
+      padding-bottom: 0.5rem;
+    }
+
+    .section-card h3 {
+      font-size: 1.2rem;
+    }
+
+    .section-card p,
+    .section-card li {
+      color: #adbac7;
+      margin: 0.75rem 0;
+      font-size: 1rem;
+    }
+
+    .section-card ul,
+    .section-card ol {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-card li {
+      margin-bottom: 0.45rem;
+    }
+
+    .article-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      color: #8b949e;
+      font-size: 0.95rem;
+    }
+    .sanction {
+      color: #ff4a56;
+      font-weight: 700;
+      background: rgba(255, 74, 86, 0.16);
+      padding: 0.16rem 0.4rem;
+      border-radius: 8px;
+      display: inline-block;
+      border: 1px solid rgba(255, 74, 86, 0.22);
+    }
+
+    .amount {
+      color: #ff4a56;
+      font-weight: 700;
+    }
+
+    .toc {
+      position: sticky;
+      top: 1.5rem;
+      align-self: start;
+      background: rgba(18, 26, 35, 0.95);
+      border: 1px solid rgba(88, 166, 255, 0.12);
+      border-radius: 18px;
+      padding: 1.4rem 1.25rem;
+      max-height: calc(100vh - 3rem);
+      overflow: auto;
+    }
+
+    .toc h2 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: #ff4a56;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .toc > ul > li {
+      margin-bottom: 0.65rem;
+    }
+
+    .toc > ul > li > a {
+      color: rgba(255, 255, 255, 0.82);
+      text-decoration: none;
+      display: block;
+      font-weight: 400;
+      font-size: 0.85rem;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toc .nested {
+      margin-top: 0.35rem;
+      padding-left: 1rem;
+    }
+
+    .toc .nested li {
+      margin-bottom: 0.35rem;
+    }
+
+    .toc .nested a {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toc a:hover,
+    .toc a:focus-visible {
+      color: #58a6ff;
+      text-decoration: underline;
+    }
+
+    .toc .nested {
+      margin-top: 0.25rem;
+      padding-left: 1rem;
+    }
+
+    .toc .nested {
+      margin-top: 0.4rem;
+      padding-left: 1rem;
+    }
+
+    .highlight {
+      background: rgba(56, 139, 253, 0.12);
+      border-left: 3px solid #58a6ff;
+      padding: 1rem 1rem 1rem 1rem;
+      margin: 1rem 0 2rem;
+      border-radius: 12px;
+      color: #c9d1d9;
+    }
+
+    blockquote {
+      margin: 1rem 0;
+      padding: 1rem 1.25rem;
+      background: rgba(99, 102, 241, 0.08);
+      border-left: 4px solid #5b7bff;
+      color: #c9d1d9;
+    }
+
+    @media (max-width: 980px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: relative;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand-logo">
+        <img src="PDCLT.png" alt="PDCLT logo" />
+        <h1>POLITIA LEGACY OF CLT WIKI</h1>
+      </div>
+      <div class="search-container">
+        <div class="search-center">
+          <div class="search-bar">
+            <input id="searchInput" type="search" placeholder="Search" aria-label="Search" autocomplete="off" />
+            <span class="search-hint">Ctrl K</span>
+          </div>
+          <div id="searchResultsBar" class="search-results-bar" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="header-right">
+        <a class="discord-link" href="https://discord.gg/T9YTjsmkJ" target="_blank" rel="noopener noreferrer" aria-label="Discord">
+          <img src="discord.png" alt="Discord" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      <section class="section-card" id="introducere">
+        <div class="article-meta">Codul penal este legea care cuprinde condițiile de tragere la răspundere penală, pedepsele și o mare parte din infracțiunile incriminate în legislația din Los Santos.</div>
+
+        <h2>Definiții Generale</h2>
+        <h3>Complicitatea</h3>
+        <p>Complice este persoana care ajută intenționat la comiterea unei infracțiuni sau care instigă la aceasta. De asemenea, este complice și persoana care promite, înainte sau în timpul comiterii faptei, să păstreze bunuri obținute ilegal sau să ajute făptuitorul, chiar dacă promisiunea nu se îndeplinește.</p>
+        <p>Complicele la o infracțiune cu intenție primește aceeași pedeapsă ca autorul, în funcție de rolul său în săvârșirea faptei.</p>
+
+        <h3>Tentativa</h3>
+        <p>Tentativa este atunci când o persoană încearcă să comite o infracțiune, dar acțiunea este întreruptă sau nu are efectul dorit. Nu se pedepsește autorul care, înainte de a fi descoperit, recunoaște fapta sau anunță autoritățile, astfel încât infracțiunea să fie împiedicată sau oprește el însuși comiterea acesteia. Tentativa se pedepsește cu jumătate din pedeapsa prevăzută pentru infracțiunea completă.</p>
+
+    
+
+        <h2 id="capitolul-i">CAPITOLUL I: Infracţiuni contra vieţii, integrităţii corporale sau sănătăţii</h2>
+
+        <article id="art1">
+          <h3>Art. 1: Omorul</h3>
+          <ul>
+            <li>(1) Omorul constă în fapta prin care o persoană suprimă în mod intenționat viața altei persoane, prin orice mijloc.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $30.000 și o pedeapsă privativă de libertate de 100 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art2">
+          <h3>Art. 2: Determinarea sau înlesnirea sinuciderii</h3>
+          <ul>
+            <li>(1) Determinarea sau înlesnirea sinuciderii constă în fapta persoanei care instigă, ajută ori oferă mijloacele necesare altei persoane pentru a-și lua viața.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art3">
+          <h3>Art. 3: Uciderea din culpă</h3>
+          <ul>
+            <li>(1) Uciderea din culpă constă în fapta prin care o persoană provoacă moartea altei persoane din neatenție, imprudență sau nerespectarea regulilor de siguranță.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $15.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art4">
+          <h3>Art. 4: Lovirea sau alte violenţe</h3>
+          <ul>
+            <li>(1) Lovirea sau alte violențe constă în acțiunea de a agresa fizic o altă persoană, fără a-i provoca răni grave sau pierderea cunoștinței.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li>(3) În cazul faptelor săvârşite în public, acţiunea penală poate fi pusă în mişcare şi din oficiu.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 35 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art5">
+          <h3>Art. 5: Vătămarea corporală</h3>
+          <ul>
+            <li>(1) Vătămarea corporală reprezintă fapta prin care o persoană provoacă alteia leziuni grave, comă sau urmări care pun viața în pericol.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art6">
+          <h3>Art. 6: Încăierarea</h3>
+          <ul>
+            <li>(1) Încăierarea constă în participarea activă la o bătaie între mai mult sau egal de patru persoane, fără a putea fi stabilit autorul principal al violențelor.</li>
+            <li>(2) Nu se pedepseşte cel care a fost prins în încăierare împotriva voinţei sale sau care a încercat să-i despartă pe alţii.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 70 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art7">
+          <h3>Art. 7: Consumul de substanțe interzise</h3>
+          <ul>
+            <li>(1) Consumul de substanțe interzise constă în utilizarea, posesia pentru consum propriu sau apariția în public sub influența drogurilor ori substanțelor interzise.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 25 de luni.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-ii">CAPITOLUL II: Infracţiuni contra libertăţii persoanei</h2>
+
+        <article id="art8">
+          <h3>Art. 8: Lipsirea de libertate în mod ilegal</h3>
+          <ul>
+            <li>(1) Lipsirea de libertate în mod ilegal constă în reținerea, sechestrarea sau împiedicarea unei persoane de a se deplasa liber, fără consimțământul acesteia și fără drept.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 60 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art9">
+          <h3>Art. 9: Insulte sau gesturi vulgare</h3>
+          <ul>
+            <li>(1) Insultele sau gesturile vulgare reprezintă fapta de a adresa cuvinte jignitoare, expresii obscene ori gesturi provocatoare la adresa unei persoane.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 20 luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art10">
+          <h3>Art. 10: Ameninţarea</h3>
+          <ul>
+            <li>(1) Amenințarea constă în exprimarea verbală, scrisă ori prin gesturi a unei intenții de a provoca o vătămare fizică, morală sau materială unei persoane.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 20 luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art11">
+          <h3>Art. 11: Şantajul</h3>
+          <ul>
+            <li>(1) Șantajul constă în constrângerea unei persoane prin amenințare, divulgare de informații sau alte mijloace, pentru a obține foloase necuvenite.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 45 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art12">
+          <h3>Art. 12: Hărțuirea</h3>
+          <ul>
+            <li>(1) Hărțuirea constă în acțiunea repetată de urmărire, contactare sau intimidare a unei persoane, de natură să îi provoace teamă ori disconfort psihic.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 30 de luni.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-iii">CAPITOLUL III: Exploatarea persoanelor vulnerabile</h2>
+
+        <article id="art13">
+          <h3>Art. 13: Supunerea la muncă forţată sau obligatorie</h3>
+          <ul>
+            <li>(1) Supunerea la muncă forțată sau obligatorie constă în constrângerea unei persoane de a presta o activitate împotriva voinței sale, prin amenințare, violență sau abuz de autoritate.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art14">
+          <h3>Art. 14: Proxenetismul</h3>
+          <ul>
+            <li>(1) Proxenetismul reprezintă fapta persoanei care înlesnește, determină sau obține foloase materiale de pe urma practicării prostituției de către una sau mai multe persoane.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art15">
+          <h3>Art. 15: Cerșetoria</h3>
+          <ul>
+            <li>(1) Cerșetoria constă în solicitarea repetată de bani, bunuri sau avantaje materiale în locuri publice, fără drept sau justificare.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-iv">CAPITOLUL IV: Infracţiuni contra libertăţii şi integrităţii sexuale</h2>
+
+        <article id="art16">
+          <h3>Art. 16: Violul</h3>
+          <ul>
+            <li>(1) Violul constă în raportul sexual, actul sexual oral sau anal cu o persoană, săvârșit prin constrângere, prin punerea acesteia în imposibilitate de a se apăra ori de a-și exprima voința, sau profitând de o astfel de stare.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li>(3) Tentativa se pedepseşte.</li>
+            <li>(4) În cazul faptelor săvârşite în public, acţiunea penală poate fi pusă în mişcare şi din oficiu.</li>
+            <li><span class="sanction">(5) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 30 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art17">
+          <h3>Art. 17: Agresiunea sexuală</h3>
+          <ul>
+            <li>(1) Agresiunea sexuală constă în săvârșirea unui act de natură sexuală, altul decât cele prevăzute la art. 15, cu o persoană, prin constrângere, prin punerea acesteia în imposibilitate de a se apăra ori de a-și exprima voința, sau profitând de această stare.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li>(3) Tentativa se pedepseşte.</li>
+            <li>(4) În cazul faptelor săvârşite în public, acţiunea penală poate fi pusă în mişcare şi din oficiu.</li>
+            <li><span class="sanction">(5) Fapta se sancționează cu amendă în valoare de $8.000 și o pedeapsă privativă de libertate de 20 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art18">
+          <h3>Art. 18: Hărţuirea sexuală</h3>
+          <ul>
+            <li>(1) Hărțuirea sexuală constă în pretinderea în mod repetat de favoruri de natură sexuală, adresarea de comentarii indecente sau manifestarea de comportamente cu tentă sexuală care intimidează ori umilesc o persoană.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 15 luni.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-v">CAPITOLUL V: Infracţiuni contra vieții private și a patrimoniului</h2>
+
+        <article id="art19">
+          <h3>Art. 19: Violarea de domiciliu și a sediului profesional</h3>
+          <ul>
+            <li>(1) Violarea de domiciliu și a sediului profesional constă în pătrunderea fără drept, ori refuzul de a părăsi locuința sau sediul profesional al unei persoane, împotriva voinței acesteia.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 15 luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art20">
+          <h3>Art. 20: Violarea vieţii private</h3>
+          <ul>
+            <li>(1) Violarea vieții private constă în captarea, utilizarea sau difuzarea de imagini, sunete ori informații personale fără consimțământul persoanei vizate.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $6.000 și o pedeapsă privativă de libertate de 30 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art21">
+          <h3>Art. 21: Divulgarea secretului profesional</h3>
+          <ul>
+            <li>(1) Divulgarea secretului profesional constă în comunicarea sau folosirea fără drept a informațiilor confidențiale obținute prin profesie ori funcție.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 40 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art22">
+          <h3>Art. 22: Furtul</h3>
+          <ul>
+            <li>(1) Furtul constă în luarea unui bun mobil din posesia sau detenția altuia, fără consimțământul acestuia, în scopul de a-l însuși pe nedrept.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li>(3) Împăcarea înlătură răspunderea penală.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 60 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art23">
+          <h3>Art. 23: Tâlhărie</h3>
+          <ul>
+            <li>(1) Tâlhăria constă în furtul săvârșit prin întrebuințarea de violență sau amenințare pentru păstrarea ori sustragerea bunului.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li>(3) Împăcarea înlătură răspunderea penală.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $20.000 și o pedeapsă privativă de libertate de 70 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art24">
+          <h3>Art. 24: Efectuarea de operaţiuni financiare în mod fraudulos</h3>
+          <ul>
+            <li>(1) Constă în efectuarea de plăți, tranzacții sau alte operațiuni financiare, folosind identități false, conturi neautorizate ori carduri obținute fraudulos.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li>(3) Împăcarea înlătură răspunderea penală.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $20.000 și o pedeapsă privativă de libertate de 60 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art25">
+          <h3>Art. 25: Distrugerea</h3>
+          <ul>
+            <li>(1) Distrugerea constă în deteriorarea, incendierea, aruncarea sau deteriorarea intenționată a unui bun aparținând altuia.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li>(3) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $4.000 și o pedeapsă privativă de libertate de 20 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art26">
+          <h3>Art. 26: Înșelăciune</h3>
+          <ul>
+            <li>(1) Înșelăciunea constă în inducerea în eroare a unei persoane, prin prezentarea ca adevărată a unei fapte mincinoase sau invers, pentru a obține un folos material injust.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li>(3) Împăcarea înlătură răspunderea penală.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 25 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art27">
+          <h3>Art. 27: Jaf cu ostatic</h3>
+          <ul>
+            <li>(1) Jaful cu ostatic constă în sustragerea de bunuri însoțită de reținerea sau amenințarea unei persoane ca mijloc de constrângere ori protecție.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $9.000 și o pedeapsă privativă de libertate de 70 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art28">
+          <h3>Art. 28: Jaf armat</h3>
+          <ul>
+            <li>(1) Jaful armat constă în sustragerea de bunuri prin folosirea unei arme de foc, a unei arme albe sau a oricărui mijloc capabil să provoace moartea ori vătămarea gravă a unei persoane.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $9.000 și o pedeapsă privativă de libertate de 90 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art29">
+          <h3>Art. 29: Spălarea de bani</h3>
+          <ul>
+            <li>(1) Spălarea de bani constă în dobândirea, transformarea sau transferul unor bunuri despre care se cunoaște că provin din săvârșirea de infracțiuni, pentru disimularea originii lor.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $15.000 și o pedeapsă privativă de libertate de 100 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art30">
+          <h3>Art. 30: Posesia unor aplicații neautorizate cu scop de acces la sisteme bancare</h3>
+          <ul>
+            <li>(1) Constă în deținerea, instalarea sau utilizarea de aplicații, programe sau instrumente software destinate accesării neautorizate a sistemelor bancare ori de plată.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $4.000 și o pedeapsă privativă de libertate de 40 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art31">
+          <h3>Art. 31: Calomnie</h3>
+          <ul>
+            <li>(1) Calomnia constă în fapta unei persoane de a comunica în public afirmații false despre o altă persoană, care pot aduce atingere onoarei, demnității sau reputației acesteia.</li>
+            <li>(2) Acţiunea penală se pune în mişcare la plângerea prealabilă a persoanei vătămate.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $7.000 și o pedeapsă privativă de libertate de 25 de luni.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-vi">CAPITOLUL VI: Infracţiuni contra autorităţii și înfăptuirii justiţiei</h2>
+
+        <article id="art32">
+          <h3>Art. 32: Incapacitatea identificării</h3>
+          <ul>
+            <li>(1) Incapacitatea identificării constă în refuzul sau imposibilitatea unei persoane de a furniza organelor abilitate date reale privind identitatea sa, cu scopul de a împiedica stabilirea acesteia.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $3.000 și o pedeapsă privativă de libertate de 10 luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art33">
+          <h3>Art. 33: Apel fals sau în batjocură</h3>
+          <ul>
+            <li>(1) Apelul fals sau în batjocură constă în alertarea nejustificată a serviciilor de urgență, prin apeluri false, abuzive sau cu intenția de a induce în eroare autoritățile.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 15 luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art34">
+          <h3>Art. 34: Urmărirea vehiculelor aparținând serviciilor publice de urgență</h3>
+          <ul>
+            <li>(1) Urmărirea vehiculelor aparținând serviciilor publice de urgență constă în deplasarea intenționată, în proximitate periculoasă sau blocarea vehiculelor de poliție, ambulanță ori pompieri aflate în misiune.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 15 luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art35">
+          <h3>Art. 35: Practicarea unei meserii fără licență</h3>
+          <ul>
+            <li>(1) Practicarea unei meserii fără licență constă în exercitarea unei activități profesionale ce necesită autorizație, permis ori licență, fără deținerea acestora.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000.</span></li>
+          </ul>
+        </article>
+
+        <article id="art36">
+          <h3>Art. 36: Ultrajul</h3>
+          <ul>
+            <li>(1) Ultrajul constă în întrebuințarea de violențe, amenințări sau insulte la adresa unui funcționar public aflat în exercitarea atribuțiilor de serviciu.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 70 luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art37">
+          <h3>Art. 37: Uzurparea de calităţi oficiale</h3>
+          <ul>
+            <li>(1) Uzurparea de calități oficiale constă în folosirea fără drept a unei funcții, uniforme, insigne sau calități publice, în scopul de a obține foloase necuvenite sau de a induce în eroare.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 30 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art38">
+          <h3>Art. 38: Nedenunţarea</h3>
+          <ul>
+            <li>(1) Nedenunțarea constă în omisiunea unei persoane de a informa autoritățile competente despre săvârșirea unei infracțiuni, de care a luat cunoștiință.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 25 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art39">
+          <h3>Art. 39: Inducerea în eroare a organelor de poliție</h3>
+          <ul>
+            <li>(1) Inducerea în eroare a organelor de poliție constă în sesizarea falsă, declarațiile mincinoase sau oferirea de informații neadevărate cu scopul de a deturna ori îngreuna ancheta.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 30 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art40">
+          <h3>Art. 40: Obstrucţionarea organelor de poliție</h3>
+          <ul>
+            <li>(1) Obstrucționarea organelor de poliție constă în împiedicarea prin orice mijloace a desfășurării unei acțiuni legale a forțelor de ordine.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art41">
+          <h3>Art. 41: Fuga de poliție</h3>
+          <ul>
+            <li>(1) Fuga de poliție constă în refuzul de a opri la somațiile regulamentare ale poliției și continuarea deplasării pe jos în scopul de a evita reținerea.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 30 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art42">
+          <h3>Art. 42: Evadarea din custodie</h3>
+          <ul>
+            <li>(1) Evadarea din custodie constă în părăsirea neautorizată a locului de detenție, escortă sau custodie, de către o persoană aflată legal reținută ori arestată.</li>
+            <li>(2) Tentativa se pedepsește.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 60 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art43">
+          <h3>Art. 43: Darea de mită</h3>
+          <ul>
+            <li>(1) Darea de mită constă în promisiunea, oferirea sau darea de bani ori alte foloase necuvenite unui funcționar public pentru îndeplinirea, întârzierea sau neîndeplinirea unui act de serviciu.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $3.500 și o pedeapsă privativă de libertate de 20 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art44">
+          <h3>Art. 44: Abuzul în serviciu</h3>
+          <ul>
+            <li>(1) Abuzul în serviciu constă în fapta funcționarului public care, cu știință, nu îndeplinește un act sau îl îndeplinește în mod defectuos, cauzând o pagubă ori o vătămare a drepturilor unei persoane.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 30 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art45">
+          <h3>Art. 45: Nerespectarea ordinului polițistului</h3>
+          <ul>
+            <li>(1) Nerespectarea ordinului polițistului constă în refuzul, ignorarea sau opunerea față de un ordin legal, verbal ori scris, emis de un polițist aflat în exercitarea atribuțiilor de serviciu.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 40 de luni.</span></li>
+            <li><span class="sanction">(3) Cu aceeași sancțiune se pedepsește fapta persoanei care, fără acordul autorităților competente, captează imagini sau înregistrări audio sau video în interiorul instituțiilor publice, acolo unde acestora li se prevede expres să nu o facă.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-vii">CAPITOLUL VII: Infracţiuni de fals</h2>
+
+        <article id="art46">
+          <h3>Art. 46: Punerea în circulaţie de valori falsificate</h3>
+          <ul>
+            <li>(1) Punerea în circulație de valori falsificate constă în fabricarea, deținerea sau introducerea în circulație de monedă, titluri ori alte valori falsificate, cunoscând caracterul lor neautentic.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează în toate cazurile cu înscrierea în cazierul penal al persoanei condamnate și cu:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: sub 7.000 → amendă $10.000, 40 de luni de închisoare</span></li>
+            <li><span class="sanction">b) TIP II: sub $500.000 → amendă $10.000, 50 de luni de închisoare</span></li>
+            <li><span class="sanction">c) TIP III: sub $1.000.000 → amendă $15.000, 70 de luni de închisoare</span></li>
+            <li><span class="sanction">d) TIP IV: peste $1.000.000 → amendă $20.000, 100 de luni de închisoare</span></li>
+          </ul>
+        </article>
+
+        <article id="art47">
+          <h3>Art. 47: Falsul privind identitatea</h3>
+          <ul>
+            <li>(1) Falsul privind identitatea constă în prezentarea sub o identitate falsă ori folosirea de documente ori date nereale pentru a induce în eroare autoritățile sau alte persoane.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 25 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art48">
+          <h3>Art. 48: Falsul intelectual</h3>
+          <ul>
+            <li>(1) Falsul intelectual constă în atestarea, de către un funcționar public, a unor fapte sau împrejurări necorespunzătoare adevărului în acte oficiale pe care le întocmește.</li>
+            <li>(2) Tentativa se pedepseşte.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $9.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-viii">CAPITOLUL VIII: Infracţiuni contra siguranţei circulaţiei pe drumurile publice</h2>
+
+        <article id="art49">
+          <h3>Art. 49: Punerea în circulaţie sau conducerea unui vehicul neînmatriculat</h3>
+          <ul>
+            <li>(1) Punerea în circulație sau conducerea unui vehicul neînmatriculat constă în folosirea pe drumurile publice a unui vehicul care nu este înmatriculat potrivit legii.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și 5 puncte de penalizare.</span></li>
+            <li>(3) Se dispune în momentul sesizării vehiculului neînmatriculat controlul corporal al tuturor persoanelor aflate în vehicul, cât și percheziția vehiculului, potrivit art. 82 alin. (2) lit. b).</li>
+          </ul>
+        </article>
+
+        <article id="art50">
+          <h3>Art. 50: Conducerea unui vehicul fără permis de conducere</h3>
+          <ul>
+            <li>(1) Conducerea unui vehicul fără permis de conducere constă în conducerea pe drumurile publice a unui autovehicul de către o persoană care nu posedă permis valabil pentru categoria respectivă.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 20 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+            <li>(3) În cazul conducătorului de moped, scooter, ori orice alt vehicul pe două roți cu motor sub 50 cm<sup>2</sup>, nu este necesar permisul de conducere.</li>
+          </ul>
+        </article>
+
+        <article id="art51">
+          <h3>Art. 51: Conducerea unui vehicul sub influenţa alcoolului sau a altor substanţe</h3>
+          <ul>
+            <li>(1) Conducerea unui vehicul sub influența alcoolului sau a altor substanțe constă în conducerea pe drumurile publice a unui vehicul de către o persoană aflată sub influența băuturilor alcoolice, drogurilor sau substanțelor psihoactive.</li>
+            <li><span class="sanction">(2) Fapta se sancționează după modelul următor:</span></li>
+            <li><span class="sanction">a) TIP I: mai mare sau egal cu 0,20 g/l alcool în aerul respirat → amendă $3.500.</span></li>
+            <li><span class="sanction">b) TIP II: mai mare sau egal cu 0,50 g/l alcool în aerul respirat → amendă $5.000, suspendarea permisului de conducere.</span></li>
+            <li><span class="sanction">c) TIP III: mai mare sau egal cu 0,80 g/l alcool în aerul respirat / pozitiv la alte substanțe → amendă $7.000, o pedeapsă privativă de libertate de 30 de luni, suspendarea permisului de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="art52">
+          <h3>Art. 52: Refuzul testării etilotest și antidrog</h3>
+          <ul>
+            <li>(1) Refuzul testării etilotest și antidrog constă în refuzul, nejustificat, al unei persoane aflate la volan de a se supune testării etilotest, ori antidrog, când legea prevede obligația acestuia.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 40 de luni, înscrierea în cazierul penal precum și cu suspendarea permisului de conducere al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art53">
+          <h3>Art. 53: Părăsirea locului accidentului</h3>
+          <ul>
+            <li>(1) Părăsirea locului accidentului constă în plecarea neautorizată de la locul unui accident rutier, fără încuviințarea organelor de poliție competente.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $4.000 și o pedeapsă privativă de libertate de 25 de luni, precum și cu suspendarea permisului de conducere al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art54">
+          <h3>Art. 54: Împiedicarea sau îngreunarea circulaţiei pe drumurile publice</h3>
+          <ul>
+            <li>(1) Împiedicarea sau îngreunarea circulației pe drumurile publice constă în acțiuni deliberate de blocare, oprire abuzivă sau crearea de obstacole pe carosabil, afectând siguranța rutieră.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 30 de luni, precum și cu suspendarea permisului de conducere pe o perioadă de 12 luni al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art55">
+          <h3>Art. 55: Fugă de poliție cu un vehicul</h3>
+          <ul>
+            <li>(1) Fuga de poliție cu un vehicul constă în refuzul de a opri la semnalele regulamentare ale poliției și continuarea deplasării în scopul de a evita controlul.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $15.000 și o pedeapsă privativă de libertate de 50 de luni, înscrierea în cazierul penal precum și cu suspendarea permisului de conducere al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art56">
+          <h3>Art. 56: Curse ilegale</h3>
+          <ul>
+            <li>(1) Cursele ilegale constau în participarea sau organizarea de întreceri neautorizate între vehicule pe drumurile publice, punând în pericol viața, integritatea corporală ori bunurile altor persoane.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $7.500 și o pedeapsă privativă de libertate de 20 de luni, precum și cu suspendarea permisului de conducere al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art57">
+          <h3>Art. 57: Transport ilegal</h3>
+          <ul>
+            <li>(1) Transportul ilegal constă în efectuarea de transporturi de persoane, bunuri sau mărfuri fără autorizațiile necesare ori cu încălcarea condițiilor legale de siguranță.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $15.000 și o pedeapsă privativă de libertate de 40 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-ix">CAPITOLUL IX: Infracţiuni contra ordinii şi liniştii publice</h2>
+
+        <article id="art58">
+          <h3>Art. 58: Tulburarea ordinii şi liniştii publice</h3>
+          <ul>
+            <li>(1) Tulburarea ordinii și liniștii publice constă în fapta persoanei care provoacă scandal, strigăte, violențe sau alte manifestări prin care se afectează climatul public de ordine și siguranță.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000.</span></li>
+          </ul>
+        </article>
+
+        <article id="art59">
+          <h3>Art. 59: Încercarea de a determina săvârşirea unei infracţiuni</h3>
+          <ul>
+            <li>(1) Încercarea de a determina săvârșirea unei infracțiuni constă în acțiunea unei persoane de a instiga, influența sau încuraja pe altcineva să comită o faptă penală.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $7.000 și o pedeapsă privativă de libertate de 40 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art60">
+          <h3>Art. 60: Incitarea la violenţă, ură sau discriminare</h3>
+          <ul>
+            <li>(1) Incitarea la violență, ură sau discriminare constă în promovarea, răspândirea sau susținerea publică de idei, mesaje ori comportamente care instigă la violență, ură sau discriminare împotriva unei persoane ori a unui grup.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $7.000 și o pedeapsă privativă de libertate de 20 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art61">
+          <h3>Art. 61: Expunere indecentă</h3>
+          <ul>
+            <li>(1) Expunerea indecentă constă în fapta persoanei care, în public, săvârșește acte de nuditate sau alte acte sexuale explicite.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 20 de luni.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-x">CAPITOLUL X: Posesie de obiecte ilegale</h2>
+
+        <article id="art62">
+          <h3>Art. 62: Posesie de armură sau Kevlar</h3>
+          <ul>
+            <li>(1) Posesia de armură sau Kevlar constă în deținerea, purtarea sau folosirea de echipamente de protecție balistică fără autorizație ori în afara scopurilor legale permise.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $7.000 și o pedeapsă privativă de libertate de 20 de luni.</span></li>
+          </ul>
+        </article>
+
+        <article id="art63">
+          <h3>Art. 63: Posesia de obiecte în scopul comiterii de infracțiuni</h3>
+          <ul>
+            <li>(1) Posesia de chei false constă în deținerea, fabricarea, vânzarea sau punerea la dispoziție a unor dispozitive, instrumente sau chei care permit accesul neautorizat în vehicule, locuințe, spații comerciale ori alte bunuri securizate.</li>
+            <li>(2) Posesia de carduri false constă în posesia, fără drept, a unor carduri bancare falsificate sau obținute fraudulos. Scopul acestei fapte este, de regulă, folosirea cardurilor pentru obținerea de bani sau bunuri în mod ilegal.</li>
+            <li>(3) Posesia de telefoane/laptopuri virusate constă în posesia, fără drept, a unor device-uri electronice dotate cu diverse programe “malware” în scopul de a efectua operațiuni digitale financiare în mod fraudulos.</li>
+            <li><span class="sanction">(4) Fapta se sancționează în toate cazurile cu înscrierea în cazierul penal al persoanei condamnate și cu:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: sub 5 obiecte → amendă $3.000, 20 de luni de închisoare</span></li>
+            <li><span class="sanction">b) TIP II: sub 15 obiecte → amendă $5.000, 30 de luni de închisoare</span></li>
+            <li><span class="sanction">c) TIP III: peste 15 obiecte → amendă $10.000, 40 de luni de închisoare</span></li>
+          </ul>
+        </article>
+
+        <article id="art64">
+          <h3>Art. 64: Posesia de pești obținuți prin braconaj</h3>
+          <ul>
+            <li>(1) Posesia de pești obținuți prin braconaj constă în deținerea, transportul sau depozitarea de specii acvatice capturate în mod ilegal, provenite din zone protejate ori interzise la pescuit.</li>
+            <li>(2) Se consideră specie protejată orice exemplar de piranha, pește roșu sau pisică de mare, precum și alte specii declarate periculoase sau interzise prin reglementările locale.</li>
+            <li><span class="sanction">(3) Fapta se sancționează în toate cazurile cu înscrierea în cazierul penal al persoanei condamnate și cu:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: sub 5 pești → amendă $5.000, 30 de luni de închisoare</span></li>
+            <li><span class="sanction">b) TIP II: sub 15 pești → amendă $10.000, 40 de luni de închisoare</span></li>
+            <li><span class="sanction">c) TIP III: peste 15 pești → amendă $15.000, 60 de luni de închisoare</span></li>
+          </ul>
+        </article>
+
+        <article id="art65">
+          <h3>Art. 65: Posesia de praf de pușcă sau componente</h3>
+          <ul>
+            <li>(1) Posesia de praf de pușcă sau componente constă în deținerea, transportul ori depozitarea fără autorizație a prafului de pușcă, muniției sau a oricăror componente destinate fabricării ori modificării armelor de foc.</li>
+            <li><span class="sanction">(2) Fapta se sancționează în toate cazurile cu înscrierea în cazierul penal al persoanei condamnate și cu:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: sub 10 obiecte → amendă $5.000, 40 de luni de închisoare</span></li>
+            <li><span class="sanction">b) TIP II: sub 30 obiecte → amendă $10.000, 50 de luni de închisoare</span></li>
+            <li><span class="sanction">c) TIP III: peste 30 obiecte → amendă $15.000, 70 de luni de închisoare</span></li>
+          </ul>
+        </article>
+
+        <article id="art66">
+          <h3>Art. 66: Producerea, posesia sau transportarea de substanțe interzise</h3>
+          <ul>
+            <li>(1) Producerea, posesia sau transportarea de substanțe ilegale constă în cultivarea, fabricarea, deținerea, vânzarea ori transportul sub orice formă a substanțelor stupefiante sau psihotrope, fără drept ori autorizație.</li>
+            <li>(2) Se consideră infracțiune și deținerea materiilor prime (semințe, frunze, muguri) din care pot rezulta ulterior substanțe interzise, cantitatea fiind echivalată conform regulilor de mai jos.</li>
+            <li>(3) Echivalențe de calcul:</li>
+            <li>• 12 frunze de cocaină = 1 pachet de cocaină = 4 pliculețe</li>
+            <li>• 1 plic de cocaină crack = 1 pliculeț</li>
+            <li>• 1 seringa meth = 1 pliculeț</li>
+            <li>• 1 pachet de marijuana mărunțită / mugur = 4 joint-uri = 4 pliculețe</li>
+            <li>• 12 frunze de tutun = 1 pachet de țigări = 1 pliculeț</li>
+            <li>(4) Exemplu de calcul:</li>
+            <li>• Dacă o persoană deține 50 pliculețe de cocaină, 25 pachete de cocaină și 48 frunze de cocaină, totalul se calculează astfel:</li>
+            <li>50 + (25×4) + (48÷12×4) = 166 pliculețe.</li>
+            <li><span class="sanction">(5) Fapta se sancționează în cazurile de la TIP II - IV cu înscrierea în cazierul penal al persoanei condamnate și cu:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: sub 5 pliculețe → amendă $5.000, 30 de luni de închisoare</span></li>
+            <li><span class="sanction">b) TIP II: sub 100 pliculețe → amendă $10.000, 50 de luni de închisoare</span></li>
+            <li><span class="sanction">c) TIP III: sub 200 pliculețe → amendă $15.000, 60 de luni de închisoare</span></li>
+            <li><span class="sanction">d) TIP IV: peste 200 pliculețe → amendă $20.000, 100 de luni de închisoare</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-xi">CAPITOLUL XI: Regimul armelor și al munițiilor</h2>
+
+        <article id="art67">
+          <h3>Art. 67: Posesia de arme albe</h3>
+          <ul>
+            <li>(1) Posesia de arme albe constă în deținerea, portul sau folosirea fără drept a obiectelor tăietoare, înțepătoare ori contondente care pot fi utilizate pentru a provoca vătămări corporale.</li>
+            <li>(2) Se consideră armă albă obiecte precum cuțitul, rozeta sau bâta, precum și alte instrumente create cu scopul de a tăia, înțepa sau lovi.</li>
+            <li>(3) Orice alt obiect, indiferent de destinația sa inițială, poate fi considerat armă albă dacă este folosit pentru lovire, intimidare ori producerea de vătămări — precum lanterna, ciocanul, cheia franceză, bara metalică, sticla spartă și alte obiecte similare.</li>
+            <li><span class="sanction">(4) Fapta se sancționează cu amendă în valoare de $10.000 și o pedeapsă privativă de libertate de 30 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art68">
+          <h3>Art. 68: Posesia de gloanțe</h3>
+          <ul>
+            <li>(1) Posesia de gloanțe constă în deținerea, transportul sau depozitarea de muniție ori proiectile fără autorizație, indiferent de calibru sau tipul armei pentru care sunt destinate.</li>
+            <li><span class="sanction">(2) Fapta se sancționează în toate cazurile cu înscrierea în cazierul penal al persoanei condamnate și cu:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: sub 15 gloanțe → amendă $5.000, 15 luni de închisoare</span></li>
+            <li><span class="sanction">b) TIP II: sub 100 gloanțe → amendă $8.000, 20 de luni de închisoare</span></li>
+            <li><span class="sanction">c) TIP III: peste 100 gloanțe → amendă $10.000, 30 de luni de închisoare</span></li>
+          </ul>
+        </article>
+
+        <article id="art69">
+          <h3>Art. 69: Posesia de arme de calibru mic</h3>
+          <ul>
+            <li>(1) Posesia de arme de calibru mic constă în deținerea, depozitarea sau transportarea fără autorizație a unei arme de foc cu un calibru mai mic sau egal cu 9mm.</li>
+            <li>(2) În această categorie se încadrează următoarele tipuri de arme de foc:</li>
+            <li>– Pistol</li>
+            <li>– Pistol .50</li>
+            <li>– Pistol MK2</li>
+            <li>– Micro SMG</li>
+            <li>– Machine Pistol (TEC-9)</li>
+            <li>– Vintage Pistol</li>
+            <li>– Ceramic Pistol</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 50 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art70">
+          <h3>Art. 70: Posesia de arme de calibru mare</h3>
+          <ul>
+            <li>(1) Posesia de arme de calibru mare constă în deținerea, depozitarea sau transportarea fără autorizație a unei arme de foc cu un calibru mai mare de 9mm, indiferent de proveniență sau stare de funcționare.</li>
+            <li>(2) În această categorie se încadrează următoarele tipuri de arme de foc:</li>
+            <li>– Navy Revolver</li>
+            <li>– DB Revolver</li>
+            <li>– Assault Rifle (AR)</li>
+            <li>– Carabine Rifle</li>
+            <li>– Compact Rifle</li>
+            <li>– Special Carabine</li>
+            <li>– MG</li>
+            <li>– Pump Shotgun</li>
+            <li>– Combat Shotgun</li>
+            <li>– Sawnoff Shotgun</li>
+            <li>– Bullpup Rifle / Rifle MK2</li>
+            <li>– Gusenberg</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 70 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art71">
+          <h3>Art. 71: Trafic de arme</h3>
+          <ul>
+            <li>(1) Traficul de arme constă în producerea, achiziționarea, deținerea, transportul, vânzarea sau intermedierea transferului de arme de foc, muniții ori componente esențiale ale acestora, fără autorizație ori în afara cadrului legal.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $6.000 și o pedeapsă privativă de libertate de 120 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-xii">CAPITOLUL XII: Crimă organizată</h2>
+
+        <article id="art72">
+          <h3>Art. 72: Aderarea la un grup infracțional organizat</h3>
+          <ul>
+            <li>(1) Aderarea la un grup infracțional organizat constă în participarea, sprijinirea sau implicarea sub orice formă în activitatea unui grup structurat de persoane (mafii, carteluri, organizații criminale), care desfășoară acțiuni ilegale având ca scop obținerea de beneficii financiare sau de influență.</li>
+            <li><span class="sanction">(2) Fapta se sancționează cu amendă în valoare de $5.000 și o pedeapsă privativă de libertate de 200 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art73">
+          <h3>Art. 73: Conducerea unui grup infracțional organizat</h3>
+          <ul>
+            <li>(1) Conducerea unui grup infracțional organizat constă în coordonarea, planificarea sau ordonarea activităților desfășurate de un grup de persoane implicat în acțiuni ilegale cu scop financiar ori de influență.</li>
+            <li>(2) Această faptă vizează persoanele cheie din structura organizației criminale, care exercită autoritate, iau decizii și organizează direct activitățile infracționale.</li>
+            <li><span class="sanction">(3) Fapta se sancționează cu amendă în valoare de $7.000 și o pedeapsă privativă de libertate de 250 de luni, precum și cu înscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <h2 id="capitolul-xiii">CAPITOLUL XIII: Aplicarea legii penale și drepturile cetățeanului</h2>
+
+        <article id="art74">
+          <h3>Art. 74: Dreptul la tăcere</h3>
+          <ul>
+            <li>(1) Dreptul la tăcere este un drept fundamental al oricărei persoane acuzate de o infracțiune de a nu se autoincrimina și a nu oferi declarații care ar putea fi folosite împotriva sa. Acest drept se aplică de la începutul urmăririi penale și impune autorităților să explice persoanei sale drepturile înainte de a o audia. De asemenea, un martor are dreptul să nu declare fapte care l-ar putea incrimina.</li>
+          </ul>
+        </article>
+
+        <article id="art75">
+          <h3>Art. 75: Principiul legalității</h3>
+          <ul>
+            <li>(1) Nicio persoană nu poate fi pedepsită pentru o faptă care nu este prevăzută în mod expres ca infracțiune de legea penală la data săvârșirii acesteia.</li>
+          </ul>
+        </article>
+
+        <article id="art76">
+          <h3>Art. 76: Dreptul la contestație</h3>
+          <ul>
+            <li><span class="sanction">(1) Orice cetățean are dreptul de a depune o contestație în privința sancțiunilor penale aduse acestuia în termen de 24 de ore de la data și ora întâmplării acțiunii, având asupra sa obligatoriu probe dezincriminatorii, urmând a i se dispune un termen de răspuns din partea autoritaților competente.</span></li>
+          </ul>
+        </article>
+
+        <article id="art77">
+          <h3>Art. 77: Dreptul la informare</h3>
+          <ul>
+            <li><span class="sanction">(1) Orice cetățean are dreptul de a fi informat în legătură cu motivele pentru care acesta este sancționat penal, urmând a i se comunica legat de probele aduse împotriva sa.</span></li>
+          </ul>
+        </article>
+
+        <article id="art78">
+          <h3>Art. 78: Dreptul la informare în cazul unui mandat de percheziție și arestare</h3>
+          <ul>
+            <li>(1) Orice cetățean are dreptul de a putea cere prezentarea probelor în vederea căruia mandatul de percheziție ori arestare a fost emis asupra sa. Acest drept poate fi folosit până în momentul începerii percheziției ori a începerii procesului de arestare.</li>
+            <li>(2) Autoritățile au dreptul de a cenzura datele cu caracter personal al persoanelor care au contribuit la emiterea mandatului.</li>
+          </ul>
+        </article>
+
+        <article id="art79">
+          <h3>Art. 79: Intervenția cetățenească și imobilizarea preventivă</h3>
+          <ul>
+            <li>(1) Orice cetățean are dreptul de a interveni pentru imobilizarea temporară a unei persoane atunci când există dovezi clare sau indicii evidente că aceasta a săvârșit ori se află în curs de a săvârși o faptă penală.</li>
+            <li>(2) Imobilizarea se poate realiza doar până la sosirea autorităților competente, fiind interzisă reținerea nejustificată, agresiunea fizică sau folosirea unor mijloace care depășesc scopul legitim al acțiunii.</li>
+            <li>(3) Persoana care imobilizează un cetățean are obligația de a prezenta dovezi (filmare) care să justifice acțiunea.</li>
+            <li><span class="sanction">(4) În lipsa acestor dovezi, fapta constituie încălcarea Art. 8 din Codul Penal – Lipsirea de libertate în mod ilegal, fiind sancționată ca atare.</span></li>
+          </ul>
+        </article>
+
+        <article id="art80">
+          <h3>Art. 80: Tentativa</h3>
+          <ul>
+            <li>(1) Tentativa constă în săvârșirea unei acțiuni care are ca scop comiterea unei fapte penale, fără ca rezultatul acesteia să se producă.</li>
+            <li><span class="sanction">(2) Tentativa se sancționează cu jumătate din pedeapsa prevăzută pentru infracțiunea consumată.</span></li>
+            <li>(3) Tentativa este pedepsită numai dacă legea prevede acest lucru în mod expres.</li>
+          </ul>
+        </article>
+
+        <article id="art81">
+          <h3>Art. 81: Plângerea prealabilă</h3>
+          <ul>
+            <li>(1) Prin plângerea prealabilă, persoana vătămată solicită organului de urmărire penală să tragă la răspundere penală persoana care a comis infracțiunea.</li>
+            <li>(2) Pentru anumite infracțiuni (menționate în Codul Penal), acțiunea penală nu poate fi pusă în mișcare decât la plângerea prealabilă a persoanei vătămate.</li>
+          </ul>
+        </article>
+
+        <article id="art82">
+          <h3>Art. 82: Împăcarea</h3>
+          <ul>
+            <li>(1) Împăcarea părților este o cauză de înlăturare a răspunderii penale, care necesită ca legea să prevadă expres acest caz.</li>
+            <li>(2) Momentul critic pentru împăcare este înaintea începerii acțiunii de procesare penală a persoanei reclamate.</li>
+          </ul>
+        </article>
+
+        <article id="art83">
+          <h3>Art. 83: Complicitatea</h3>
+          <ul>
+            <li>(1) Complicitatea constă în a ajuta cu intenție în orice mod la săvârșirea unei fapte prevăzute de legea penală.</li>
+            <li><span class="sanction">(2) Complicitatea se sancționează cu jumătate din pedeapsa prevăzută pentru infracțiunea consumată și cu neînscrierea în cazierul penal al persoanei condamnate.</span></li>
+          </ul>
+        </article>
+
+        <article id="art84">
+          <h3>Art. 84: Controlul corporal și controlul vehiculului</h3>
+          <ul>
+            <li>(1) Controlul corporal și controlul vehiculului reprezintă proceduri de verificare efectuate de către poliție, având ca scop identificarea de arme, droguri, obiecte interzise, bunuri furate sau alte probe care pot constitui elemente ale unei fapte penale.</li>
+            <li>(2) Poliția are dreptul de a efectua control corporal sau control al vehiculului în următoarele situații:</li>
+            <li>a) când persoana este mascată, cu excepția cazurilor în care masca este medicală sau utilizată de motocicliști;</li>
+            <li>b) când persoana conduce ori se află într-un vehicul fără numere de înmatriculare;</li>
+            <li>c) când persoana se află într-o zonă ilegală ori alte locații cunoscute pentru activități infracționale;</li>
+            <li>d) când persoana este surprinsă comițând o faptă ilegală, cum ar fi: verificarea torpedoului sau portbagajului unui vehicul fără acordul proprietarului, posesia vizibilă a unei arme de calibru mare, fuga de la somațiile poliției sau refuzul legitimării;</li>
+            <li>e) când persoana intră într-o secție de poliție, indiferent de scop, pentru asigurarea siguranței instituției;</li>
+            <li>f) în cadrul unei razii ori acțiuni cu mandat de percheziție zonală, emis conform procedurilor legale;</li>
+            <li>g) în cazul unui filaj realizat de un detectiv într-o zonă cu activitate infracțională cunoscută, când se constată comportamente suspecte, controlul corporal sau al vehiculului poate fi dispus cu acordul detectivului responsabil.</li>
+            <li>(3) Controlul vehiculului se efectuează în prezența conducătorului sau proprietarului, dacă acesta este disponibil, iar obiectele descoperite se inventariază și se predau autorităților competente.</li>
+            <li><span class="sanction">(4) Efectuarea controlului corporal sau al vehiculului în afara cazurilor prevăzute mai sus constituie abuz de autoritate și se sancționează potrivit dispozițiilor legale.</span></li>
+          </ul>
+        </article>
+
+        <article id="art85">
+          <h3>Art. 85: Etilotest si test antidrog</h3>
+          <ul>
+            <li>(1) Etilotestul și testul antidrog reprezintă proceduri oficiale prin care poliția verifică prezența alcoolului sau a substanțelor interzise în organismul unei persoane.</li>
+            <li>(2) Orice persoană este obligată să se supună testării cu etilotestul sau testului antidrog în următoarele situații:</li>
+            <li>a) când se află la volanul unui vehicul și există suspiciuni întemeiate că se află sub influența alcoolului sau a substanțelor interzise;</li>
+            <li>b) când a fost implicată într-un accident rutier, indiferent de gravitate;</li>
+            <li>c) când este surprinsă conducând în mod haotic sau periculos;</li>
+            <li>d) când este oprită în cadrul unui filtru rutier ori al unei razii oficiale dispuse de poliție;</li>
+            <li>e) când este găsită într-o zonă cunoscută pentru activități ilegale, precum laboratoare, cluburi sau depozite unde se produc ori se distribuie substanțe interzise.</li>
+            <li><span class="sanction">(3) Refuzul unei persoane de a se supune testării cu etilotestul sau testului antidrog constituie infracțiune și se sancționează potrivit dispozițiilor privind refuzul testării.</span></li>
+            <li>(4) Testarea se efectuează de către un polițist instruit, în prezența martorilor sau prin mijloace video-audio, pentru asigurarea transparenței și validității rezultatelor.</li>
+          </ul>
+        </article>
+
+        <article id="art86">
+          <h3>Art. 86: Rețelele de socializare și comunicarea digitală</h3>
+          <ul>
+            <li>(1) Rețelele de socializare sunt spații private deschise publicului, ceea ce înseamnă că faptele penale comise pe platformele digitale existente pot produce efecte juridice.</li>
+            <li>(2) Orice faptă penală comisă prin intermediul comunicării digitale poate produce efecte juridice.</li>
+          </ul>
+        </article>
+
+        <article id="art87">
+          <h3>Art. 87: Aplicabilitatea sancțiunilor penale</h3>
+          <ul>
+            <li><span class="sanction">(1) În cazul în care un cetățean comite mai multe fapte din același capitol, va fi sancționat doar pentru cea mai gravă.</span></li>
+            <li>(2) În cazul în care un cetățean comite mai multe fapte prevăzute cu înscrierea în cazierul penal, acestuia i se va întocmi doar o singură înscriere în cazierul penal.</li>
+            <li><span class="sanction">(3) În cazul în care un cetățean comite mai multe infracțiuni din capitole diferite, amenda și pedepsele privative de libertate se adună.</span></li>
+            <li>(4) În procesul verbal de arestare se pot trece doar două cele mai grave infracțiuni prevăzute de lege, acestea fiind încadrate în capitole diferite.</li>
+            <li>(5) În cazul în care un cetățean comite infracțiuni prevăzute de art. 1, respectiv art. 27 și 28, asupra acestuia nu se poate dispune măsura scăderii pedepsei privative de libertate, ci doar creșterea sentinței cu închisoarea.</li>
+          </ul>
+        </article>
+
+        <article id="art88">
+          <h3>Art. 88: Suspendarea permisului de conducere</h3>
+          <ul>
+            <li><span class="sanction">(1) Suspendarea permisului de conducere este obligatorie atunci când legea penală sau rutieră prevede sancțiunea suspendării acestuia. Orice abatere a organului competent de la această regulă este considerată a fi nelegală.</span></li>
+            <li>(2) Cu titlu de excepție regăsim situațiile în care cetățeanul care a comis infracțiunea ori a încălcat legislația rutieră în vigoare la data săvârșirii ilegalității se deplasa cu un vehicul nemotorizat la momentul săvârșirii acesteia. În acest caz, nu se suspendă permisul de conducere, suspendarea fiind considerată nelegală.</li>
+            <li><span class="sanction">(3) Suspendarea permisului de conducere pentru acumularea a 15 puncte de penalizare constă într-o perioadă de 12 luni petrecute în oraș de către cetățeanul al cărui permis a fost suspendat, ulterior acestei perioade acesta fiind obligat să achite suma de $1.000 la Școala de Șoferi LS pentru recuperarea acestuia. Un singur punct de penalizare expiră la 20 de luni petrecute în oraș.</span></li>
+            <li>(4) Suspendarea permisului de conducere directă de către organul competent asupra săvârșirii unei infracțiuni sau nereguli rutiere constă într-o perioadă de 12 luni petrecute în oraș de către cetățeanul al cărui permis a fost suspendat, ulterior acestei perioade acesta fiind obligat să reia probele teoretice și practice pentru recuperarea categoriilor pe care acesta le avea pe permisul suspendat.</li>
+          </ul>
+        </article>
+
+        <article id="art89">
+          <h3>Art. 89: Verificarea dispozitivului mobil sau a stației radio</h3>
+          <ul>
+            <li>(1) Verificarea dispozitivului mobil sau a stației radio poate fi efectuată exclusiv de către un organ abilitat din cadrul departamentului, în cazul unui flagrant sau atunci când există suspiciuni rezonabile privind implicarea unei persoane în infracțiuni precum jafuri, posesie ilegală de arme, punerea în circulație de valori falsificate ori efectuarea de operațiuni financiare în mod fraudulos.</li>
+            <li>(2) Verificarea dispozitivului mobil sau a stației radio se efectuează exclusiv în scopul identificării probelor relevante pentru ancheta aflată în desfășurare.</li>
+            <li>(3) Dispozitivul mobil sau stația radio pot fi verificate fără acordul cetățeanului, atunci când există temei legal pentru efectuarea verificării.</li>
+          </ul>
+        </article>
+
+        <h2 id="legislatie-rutiera">LEGISLAȚIA RUTIERĂ A STATULUI CLT</h2>
+
+        <article id="legislatia-art1">
+          <h3>Art. 1: Depășirea limitei legale de viteză</h3>
+          <ul>
+            <li>(1) Oraș: Drumurile urbane reprezintă totalitatea străzilor, bulevardelor și aleilor situate în interiorul localităților, destinate circulației vehiculelor, pietonilor și mijloacelor de transport public.</li>
+            <li>(1)(a) Pe drumurile urbane, viteza maximă admisă pentru autovehicule este de 90 km/h.</li>
+            <li>(2) Drumurile Naționale: Drumurile naționale sunt rutele principale de legătură între Los Santos, Sandy Shores, Grapeseed și Paleto Bay, care nu sunt autostrăzi, dar au rol regional, economic sau turistic.</li>
+            <li>(2)(a) Pe drumurile naționale, viteza maximă admisă pentru autovehicule este de 120 km/h.</li>
+            <li>(3) Autostrăzi: Autostrada este drumul național de mare viteză, rezervat exclusiv circulației autovehiculelor, care are sensuri separate de mers și acces controlat.</li>
+            <li>(3)(a) Pe autostrăzi, viteza maximă admisă pentru autovehicule este de 170 km/h, iar viteza minimă obligatorie este de 70 km/h.</li>
+            <li>(3)(b) Acest tronson de drum este interzis circulației pietonale, cu mopede, biciclete, trotinete sau scutere.</li>
+            <li><span class="sanction">(4) Sancțiuni pentru încălcările rutiere:</span></li>
+          </ul>
+          <ul>
+            <li><span class="sanction">a) TIP I: depășirea cu 10–30 km/h a vitezei maxime admise → AMENDĂ $2.000 + 1 punct de penalizare.</span></li>
+            <li><span class="sanction">b) TIP II: depășirea cu 30–60 km/h a vitezei maxime admise → AMENDĂ $4.000 + 2 puncte de penalizare.</span></li>
+            <li><span class="sanction">c) TIP III: depășirea cu peste 60 km/h a vitezei maxime admise → AMENDĂ $6.000 + 3 puncte de penalizare.</span></li>
+            <li><span class="sanction">d) TIP IV: depășirea cu peste 100 km/h a vitezei maxime admise → AMENDĂ $10.000 + 5 puncte de penalizare.</span></li>
+            <li><span class="sanction">e) TIP V: depășirea cu peste 200 km/h a vitezei maxime admise → AMENDĂ $20.000 și suspendarea permisului de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art2">
+          <h3>Art. 2: Parcare neregulamentară</h3>
+          <ul>
+            <li>(1) Se consideră parcare neregulamentară oprirea sau staționarea unui vehicul în locuri interzise ori neamenajate, precum pe trotuare, treceri de pietoni, intersecții, benzi de circulație sau în zone ce blochează accesul altor vehicule ori pietoni.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $3.000, iar ca măsură complementară se aplică un punct de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art3">
+          <h3>Art. 3: Nerespectarea semnelor și marcajelor rutiere</h3>
+          <ul>
+            <li>(1) Nerespectarea semnelor și marcajelor rutiere reprezintă încălcarea regulilor de circulație prin ignorarea, neobservarea sau neconformarea la semnele de circulație (rutiere, luminoase ori sonore) și la marcajele aplicate pe carosabil.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $3.000, iar ca măsură complementară se aplică două puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art4">
+          <h3>Art. 4: Nerespectarea indicațiilor polițistului</h3>
+          <ul>
+            <li>(1) Prin nerespectarea indicațiilor polițistului se înțelege refuzul, omisiunea sau ignorarea semnalelor, indicațiilor ori dispozițiilor date de un polițist rutier aflat în exercitarea atribuțiilor de serviciu, indiferent dacă acestea sunt făcute prin semne, gesturi, mijloace sonore sau prin semnalul bastonului reflectorizant.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $8.000, iar ca măsură complementară se aplică suspendarea permisului de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art5">
+          <h3>Art. 5: Nerespectarea semnalelor luminoase și sonore</h3>
+          <ul>
+            <li>(1) Orice conducător de vehicul are obligația de a reduce viteza și a acorda prioritate vehiculelor aparținând serviciilor publice de urgență.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $5.000, iar ca măsură complementară se aplică cinci puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art6">
+          <h3>Art. 6: Provocarea unui accident cu victime</h3>
+          <ul>
+            <li>(1) Provocarea unui accident cu victime înseamnă producerea unui eveniment rutier din vina unui participant la trafic, care are ca urmare vătămarea corporală uneia ori mai multor persoane.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $10.000, iar ca măsură complementară se aplică suspendarea permisului de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art7">
+          <h3>Art. 7: Provocarea unui accident cu pagube materiale</h3>
+          <ul>
+            <li>(1) Provocarea unui accident cu pagube materiale înseamnă producerea unui eveniment rutier din vina unui participant la trafic, care duce doar la deteriorarea vehiculelor, bunurilor sau infrastructurii, fără rănirea persoanelor.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $7.000, iar ca măsură complementară se aplică două puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art8">
+          <h3>Art. 8: Comportamentul agresiv în trafic</h3>
+          <ul>
+            <li>(1) Prin conducere agresivă se înțelege comportamentul prin care un conducător de vehicul efectuează, pe drumurile publice, manevre repetate și periculoase, punând în pericol siguranța circulației rutiere, a persoanelor sau a bunurilor, ori turarea excesivă a motorului.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $5.000, iar ca măsură complementară se aplică trei puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art9">
+          <h3>Art. 9: Dotarea autovehiculului cu accesorii/elemente neomologate</h3>
+          <ul>
+            <li>(1) Dotarea autovehiculului cu accesorii sau elemente neomologate reprezintă echiparea ori modificarea unui vehicul prin montarea de sisteme precum faruri cu xenon, neoane sau geamuri fumurii care nu sunt omologate de Poliția Los Santos și care pot afecta siguranța rutieră ori corespunderea tehnică a autovehiculului.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $15.000.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art10">
+          <h3>Art. 10: Acoperirea feței la volan</h3>
+          <ul>
+            <li>(1) Acoperirea feței la volan reprezintă fapta conducătorului de autovehicul care își acoperă total sau parțial fața în timpul conducerii, prin mijloace ce împiedică identificarea sa de către autorități.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $3.000.</span></li>
+            <li>(3) Conform art. 82 alin. 2 lit. a) Cod Penal, se aplică măsura controlului corporal și al vehiculului.</li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art11">
+          <h3>Art. 11: Conducerea unui motor fără cască</h3>
+          <ul>
+            <li>(1) Conducerea unei motociclete pe drumurile publice fără echipament corespunzător (cască) este strict interzisă.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $3.000, iar ca măsură complementară se aplică trei puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art12">
+          <h3>Art. 12: Neacordare de prioritate</h3>
+          <ul>
+            <li>(1) Neacordarea de prioritate reprezintă fapta conducătorului de vehicul care nu respectă dreptul de trecere al altor participanți la trafic, stabilit prin regulile privind ordinea priorităților.</li>
+            <li>(2) În determinarea priorității nu se iau în considerare semafoarele, iar prioritatea se stabilește în următoarea ordine:</li>
+            <li>a) Prioritatea de semn/marcaj rutier – atunci când există indicatoare precum „Cedează trecerea” sau „Oprire”;</li>
+            <li>b) Prioritatea de drum prioritar – vehiculele care circulă pe drumul prioritar au prioritate față de cele care pătrund de pe drumurile secundare;</li>
+            <li>c) Prioritatea de dreapta – în lipsa oricăror indicatoare sau marcaje, are prioritate vehiculul care vine din dreapta;</li>
+            <li><span class="sanction">(3) Această faptă se sancționează contravențional cu o amendă în cuantum de $4.000, iar ca măsură complementară se aplică 4 puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art13">
+          <h3>Art. 13: Neîncadrarea corespunzătoare a autovehiculelor de mare tonaj pe benzile de circulație</h3>
+          <ul>
+            <li>(1) Neîncadrarea corespunzătoare a autovehiculelor de mare tonaj reprezintă fapta conducătorului unui vehicul cu masa totală maximă autorizată mai mare de 7,5 tone care circulă pe alte benzi decât prima bandă a sensului de mers, fără un motiv justificat.</li>
+            <li>(2) Conducătorii acestor vehicule sunt obligați să circule permanent pe banda nr. 1, indiferent de numărul total al benzilor de pe sens, având voie să folosească benzile superioare doar în următoarele situații:</li>
+            <li>a) pentru efectuarea unei manevre de depășire, cu revenirea imediată pe banda nr. 1 după finalizarea acesteia;</li>
+            <li>b) pentru schimbarea direcției de mers la stânga, acolo unde semnalizarea rutieră o permite;</li>
+            <li>c) în cazul în care administratorul drumului a stabilit prin indicatoare o bandă special destinată vehiculelor grele.</li>
+            <li>(3) Este interzisă circulația autovehiculelor de mare tonaj pe benzile 2 și 3 ale drumurilor naționale, europene și autostrăzilor, cu excepțiile prevăzute la alin. (2).</li>
+            <li><span class="sanction">(4) Această faptă se sancționează contravențional cu o amendă în cuantum de $5.000, iar ca măsură complementară se aplică 3 puncte de penalizare la permisul de conducere.</span></li>
+          </ul>
+        </article>
+
+        <article id="legislatia-art14">
+          <h3>Art. 14: Traversare neregulamentară</h3>
+          <ul>
+            <li>(1) Se consideră traversare neregulamentară traversarea pietonală printr-un loc în care trecerea nu e permisă, punând în pericol viața unui cetățean sau propria viață.</li>
+            <li><span class="sanction">(2) Această faptă se sancționează contravențional cu o amendă în cuantum de $1.000.</span></li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <aside class="toc">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#introducere">Introducere</a></li>
+        <li><a href="#capitolul-i">Cap. I: Infracţiuni viaţă şi integritate</a></li>
+        <li><a href="#capitolul-ii">Cap. II: Infracţiuni contra libertăţii</a></li>
+        <li><a href="#capitolul-iii">Cap. III: Exploatarea vulnerabililor</a></li>
+        <li><a href="#capitolul-iv">Cap. IV: Infracţiuni contra libertăţii sexuale</a></li>
+        <li><a href="#capitolul-v">Cap. V: Infracţiuni viaţă privată & patrimoniu</a></li>
+        <li><a href="#capitolul-vi">Cap. VI: Infracţiuni contra autorităţii şi justiţiei</a></li>
+        <li><a href="#capitolul-vii">Cap. VII: Infracţiuni de fals</a></li>
+        <li><a href="#capitolul-viii">Cap. VIII: Infracţiuni siguranţă trafic</a></li>
+        <li><a href="#capitolul-ix">Cap. IX: Infracţiuni ordine şi linişte</a></li>
+        <li><a href="#capitolul-x">Cap. X: Posesie obiecte ilegale</a></li>
+        <li><a href="#capitolul-xi">Cap. XI: Arme şi muniţii</a></li>
+        <li><a href="#capitolul-xii">Cap. XII: Crimă organizată</a></li>
+        <li><a href="#capitolul-xiii">Cap. XIII: Aplicare lege penală & drepturi</a></li>
+        <li><a href="#legislatie-rutiera">Legislaţia Rutieră</a>
+          <ul class="nested">
+                <li><a href="#legislatia-art1">Art. 1: Depășirea limitei legale de viteză</a></li>
+            <li><a href="#legislatia-art2">Art. 2: Parcare neregulamentară</a></li>
+            <li><a href="#legislatia-art3">Art. 3: Nerespectarea semnelor şi marcajelor</a></li>
+            <li><a href="#legislatia-art4">Art. 4: Nerespectarea indicațiilor polițistului</a></li>
+            <li><a href="#legislatia-art5">Art. 5: Nerespectarea semnalelor luminoase și sonore</a></li>
+            <li><a href="#legislatia-art6">Art. 6: Provocarea unui accident cu victime</a></li>
+            <li><a href="#legislatia-art7">Art. 7: Provocarea unui accident cu pagube materiale</a></li>
+            <li><a href="#legislatia-art8">Art. 8: Comportamentul agresiv în trafic</a></li>
+            <li><a href="#legislatia-art9">Art. 9: Dotarea cu accesorii neomologate</a></li>
+            <li><a href="#legislatia-art10">Art. 10: Acoperirea feței la volan</a></li>
+            <li><a href="#legislatia-art11">Art. 11: Conducerea unui motor fără cască</a></li>
+            <li><a href="#legislatia-art12">Art. 12: Neacordare de prioritate</a></li>
+            <li><a href="#legislatia-art13">Art. 13: Neîncadrarea vehiculului de mare tonaj</a></li>
+            <li><a href="#legislatia-art14">Art. 14: Traversare neregulamentară</a></li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchResultsBar = document.getElementById('searchResultsBar');
+    const articles = Array.from(document.querySelectorAll('main article[id]'))
+      .map(article => ({
+        id: article.id,
+        title: article.querySelector('h3')?.textContent.trim() || article.id,
+        text: article.textContent.trim().toLowerCase(),
+      }));
+
+    const escapeRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const highlightMatch = (title, query) => {
+      const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
+      return title.replace(regex, '<span class="result-highlight">$1</span>');
+    };
+
+    const renderSearchResults = query => {
+      const normalized = query.trim().toLowerCase();
+      if (!normalized) {
+        searchResultsBar.classList.remove('active');
+        searchResultsBar.innerHTML = '';
+        return;
+      }
+
+      const matches = articles.filter(item => item.title.toLowerCase().includes(normalized));
+      if (!matches.length) {
+        searchResultsBar.innerHTML = '<div class="no-results">Nicio potrivire găsită.</div>';
+        searchResultsBar.classList.add('active');
+        return;
+      }
+
+      searchResultsBar.innerHTML = matches.slice(0, 8)
+        .map(item => `
+          <button type="button" class="result-item" data-target="${item.id}">
+            ${highlightMatch(item.title, query)}
+          </button>
+        `)
+        .join('');
+      searchResultsBar.classList.add('active');
+    };
+
+    searchInput.addEventListener('input', event => renderSearchResults(event.target.value));
+
+    searchResultsBar.addEventListener('click', event => {
+      const button = event.target.closest('button[data-target]');
+      if (!button) return;
+      const target = document.getElementById(button.dataset.target);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+        window.scrollBy(0, -headerHeight - 12);
+      }
+      searchResultsBar.classList.remove('active');
+    });
+
+    document.addEventListener('keydown', event => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        searchInput.focus();
+        renderSearchResults(searchInput.value);
+      }
+    });
+
+    document.addEventListener('click', event => {
+      if (!event.target.closest('.search-bar') && !event.target.closest('.search-results-bar')) {
+        searchResultsBar.classList.remove('active');
+      }
+    });
+
+    searchInput.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        searchResultsBar.classList.remove('active');
+        searchInput.blur();
+      }
+    });
+  </script>
+</body>
+</html>
+
+
